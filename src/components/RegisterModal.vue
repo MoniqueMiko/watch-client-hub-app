@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import useRegister from '@/composables/useRegister'
+
+const props = defineProps<{ isOpen: boolean }>()
+const emit = defineEmits(['close'])
+
+const { fullName, email, password, submitRegister } = useRegister(() => emit('close'))
+
+function close() {
+  emit('close')
+}
+</script>
+
 <template>
   <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
     <div class="bg-white rounded-xl p-6 shadow-lg w-full max-w-md">
@@ -17,20 +31,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import useRegister from '@/composables/useRegister'
-
-const props = defineProps<{ isOpen: boolean }>()
-const emit = defineEmits(['close'])
-
-const { fullName, email, password, submitRegister } = useRegister(() => emit('close'))
-
-function close() {
-  emit('close')
-}
-</script>
 
 <style scoped>
 .input {

@@ -1,3 +1,74 @@
+<script setup lang="ts">
+import { onMounted, ref, computed } from 'vue'
+import { useReview } from '@/composables/useReview'
+
+const {
+  reviews,
+  fetchReviews,
+  showModal,
+  toggleModal,
+  comment,
+  classification,
+  submitReview,
+  updateReview,
+  deleteReview,
+  formatDate
+} = useReview()
+
+// Recupera ID do usuário logado
+const userId = ref<number | null>(getUserId())
+const isLoggedIn = computed(() => !!userId.value)
+
+function getUserId(): number | null {
+  const raw = localStorage.getItem('userId')
+  return raw ? Number(raw) : null
+}
+
+const editModeReview = ref(null)
+
+function openNewReview() {
+  comment.value = ''
+  classification.value = null
+  editModeReview.value = null
+  toggleModal()
+}
+
+function editReview(review: any) {
+  comment.value = review.comments
+  classification.value = Number(review.classification)
+  editModeReview.value = review
+  showModal.value = true
+}
+
+async function handleSubmit() {
+  if (editModeReview.value) {
+    await updateReview(editModeReview.value.id, comment.value, classification.value)
+    editModeReview.value = null
+  } else {
+    await submitReview()
+  }
+
+  comment.value = ''
+  classification.value = null
+  toggleModal()
+  await fetchReviews()
+}
+
+async function confirmDelete(reviewId: number) {
+  const confirm = window.confirm('Tem certeza que deseja deletar esta avaliação?')
+  if (confirm) {
+    await deleteReview(reviewId)
+    await fetchReviews()
+  }
+}
+
+const paginatedReviews = computed(() => {
+  return reviews.value.slice(0, 5)
+})
+
+onMounted(fetchReviews)
+</script>
+
 <template>
   <section class="mt-16 max-w-4xl mx-auto px-4">
     <h2 class="text-2xl font-bold mb-6 text-center text-pink-600">Avaliações Recentes</h2>
@@ -21,8 +92,11 @@
         <p class="text-sm text-gray-700 mt-2">{{ review.comments }}</p>
         <p class="text-xs text-gray-600 mt-1">{{ formatDate(review.created_at) }}</p>
 
-        <!-- Botões de edição/exclusão para o autor -->
-        <div v-if="review.user === userId" class="flex gap-3 mt-2">
+        <!-- Botões só se logado e for o autor -->
+        <div
+          v-if="isLoggedIn && (review.user === userId || review.user?.id === userId)"
+          class="flex gap-3 mt-2"
+        >
           <button @click="editReview(review)" class="text-sm text-blue-600 hover:underline">Editar</button>
           <button @click="confirmDelete(review.id)" class="text-sm text-red-600 hover:underline">Deletar</button>
         </div>
@@ -30,7 +104,7 @@
     </div>
 
     <!-- Botão para abrir modal -->
-    <div class="text-center">
+    <div class="text-center" v-if="isLoggedIn">
       <button
         class="bg-pink-500 text-white px-6 py-2 rounded-full font-medium hover:bg-pink-600 transition"
         @click="openNewReview"
@@ -86,70 +160,3 @@
     </div>
   </section>
 </template>
-
-<script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
-import { useReview } from '@/composables/useReview'
-
-const {
-  reviews,
-  fetchReviews,
-  showModal,
-  toggleModal,
-  comment,
-  classification,
-  submitReview,
-  updateReview,
-  deleteReview,
-  formatDate
-} = useReview()
-
-const userId = Number(localStorage.getItem('userId') || 0)
-const editModeReview = ref(null)
-
-// Abertura de modal para nova avaliação
-const openNewReview = () => {
-  comment.value = ''
-  classification.value = null
-  editModeReview.value = null
-  toggleModal()
-}
-
-// Abertura de modal para edição
-const editReview = (review: any) => {
-  comment.value = review.comments
-  classification.value = Number(review.classification)
-  editModeReview.value = review
-  showModal.value = true
-}
-
-// Submissão: novo ou edição
-const handleSubmit = async () => {
-  if (editModeReview.value) {
-    await updateReview(editModeReview.value.id, comment.value, classification.value)
-    editModeReview.value = null
-  } else {
-    await submitReview()
-  }
-
-  comment.value = ''
-  classification.value = null
-  toggleModal()
-  await fetchReviews()
-}
-
-// Exclusão com confirmação
-const confirmDelete = async (reviewId: number) => {
-  const confirm = window.confirm('Tem certeza que deseja deletar esta avaliação?')
-  if (confirm) {
-    await deleteReview(reviewId)
-  }
-}
-
-// Mostrar apenas 5 avaliações mais recentes
-const paginatedReviews = computed(() => {
-  return reviews.value.slice(0, 5)
-})
-
-onMounted(fetchReviews)
-</script>

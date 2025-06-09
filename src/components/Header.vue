@@ -14,7 +14,6 @@ function goToLogin() {
 }
 
 function logout() {
-  console.log('logout')
   localStorage.removeItem('token')
   userStore.clearUser()
   router.push('/')
