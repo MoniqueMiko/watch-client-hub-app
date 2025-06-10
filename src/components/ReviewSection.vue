@@ -46,7 +46,7 @@ const {
         <p class="text-xs text-gray-600 mt-1">{{ formatDate(review.created_at) }}</p>
 
         <div
-          v-if="isLoggedIn && (review.user === userId || review.user?.id === userId)"
+          v-if="isLoggedIn && (review.user === userId || (typeof review.user === 'object' && review.user.id === userId))"
           class="flex gap-3 mt-2"
         >
           <button @click="editReview(review)" class="text-sm text-blue-600 hover:underline">Editar</button>
@@ -91,7 +91,7 @@ const {
               @click="classification = star"
               class="text-2xl focus:outline-none transition"
             >
-              <span :class="star <= classification ? 'text-yellow-400' : 'text-gray-300'">★</span>
+              <span :class="star <= (classification ?? 0) ? 'text-yellow-400' : 'text-gray-300'">★</span>
             </button>
           </div>
         </div>

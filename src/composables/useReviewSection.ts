@@ -2,6 +2,15 @@
 import { ref, computed, onMounted } from 'vue'
 import { useReview } from './useReview'
 
+interface Review {
+  id: number
+  comments: string
+  classification: number
+  created_at: string
+  fullName?: string
+  user?: number | { id: number; fullName?: string }
+}
+
 export function useReviewSection() {
   const {
     reviews,
@@ -17,14 +26,14 @@ export function useReviewSection() {
   } = useReview()
 
   const userId = ref<number | null>(getUserId())
-  const isLoggedIn = computed(() => !!userId.value)
+  const isLoggedIn = computed(() => userId.value !== null)
 
   function getUserId(): number | null {
-    const userId = localStorage.getItem('userId')
-    return userId ? Number(userId) : null
+    const stored = localStorage.getItem('userId')
+    return stored ? Number(stored) : null
   }
 
-  const editModeReview = ref<any>(null)
+  const editModeReview = ref<Review | null>(null)
 
   function openNewReview() {
     comment.value = ''
@@ -33,16 +42,24 @@ export function useReviewSection() {
     toggleModal()
   }
 
-  function editReview(review: any) {
+  function editReview(review: Review) {
     comment.value = review.comments
-    classification.value = Number(review.classification)
+    classification.value = review.classification
     editModeReview.value = review
     showModal.value = true
   }
 
   async function handleSubmit() {
     if (editModeReview.value) {
-      await updateReview(editModeReview.value.id, comment.value, classification.value)
+      const { id } = editModeReview.value
+      const rating = classification.value
+
+      if (rating == null) {
+        alert('Selecione uma nota antes de enviar.')
+        return
+      }
+
+      await updateReview(id, comment.value, rating)
       editModeReview.value = null
     } else {
       await submitReview()
@@ -62,9 +79,7 @@ export function useReviewSection() {
     }
   }
 
-  const paginatedReviews = computed(() => {
-    return reviews.value.slice(0, 5)
-  })
+  const paginatedReviews = computed(() => reviews.value.slice(0, 5))
 
   onMounted(fetchReviews)
 

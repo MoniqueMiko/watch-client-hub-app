@@ -1,14 +1,32 @@
 import { ref, computed } from 'vue'
 import axios from 'axios'
 
+interface ReviewItem {
+  id: number;
+  comments: string;
+  classification: number;
+  created_at: string;
+  user?: number | { id: number; fullName?: string };
+  fullName?: string;
+}
+
 export function useReview() {
   const showModal = ref(false)
   const comment = ref('')
   const classification = ref<number | null>(null)
-  const reviews = ref<any[]>([])
+  const reviews = ref<ReviewItem[]>([])
 
   const currentPage = ref(1)
   const perPage = 5
+
+  const userId = ref<number | null>(null);
+
+  const loadUserId = () => {
+    const storedUserId = localStorage.getItem('userId');
+    userId.value = storedUserId ? Number(storedUserId) : null;
+  };
+
+  loadUserId();
 
   const toggleModal = () => {
     showModal.value = !showModal.value
@@ -16,9 +34,8 @@ export function useReview() {
 
   const submitReview = async (): Promise<boolean> => {
     const token = localStorage.getItem('token')
-    const userId = localStorage.getItem('userId')
 
-    if (!token || !userId) {
+    if (!token || userId.value === null) {
       alert('Você precisa estar logado para enviar uma avaliação.')
       return false
     }
@@ -27,7 +44,7 @@ export function useReview() {
       await axios.post(
         'http://localhost:3000/review/store',
         {
-          user: Number(userId),
+          user: userId.value,
           comments: comment.value,
           classification: classification.value,
         },
@@ -60,9 +77,9 @@ export function useReview() {
           Authorization: `Bearer ${token}`,
         },
       })
-      const data = response.data || []
+      const data: ReviewItem[] = response.data || []
 
-      reviews.value = data.sort((a, b) =>
+      reviews.value = data.sort((a: ReviewItem, b: ReviewItem) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       )
     } catch (err) {
@@ -86,13 +103,12 @@ export function useReview() {
 
   const updateReview = async (reviewId: number, newComment: string, newClassification: number) => {
     const token = localStorage.getItem('token')
-    const userId = localStorage.getItem('userId')
 
-    if (!token || !userId) return alert('Você precisa estar logado.')
+    if (!token || userId.value === null) return alert('Você precisa estar logado.') // Verificar userId.value
 
     try {
       await axios.put(`http://localhost:3000/review/update/${reviewId}`, {
-        user: Number(userId),
+        user: userId.value,
         comments: newComment,
         classification: newClassification
       }, {
@@ -142,6 +158,7 @@ export function useReview() {
     currentPage,
     perPage,
     updateReview,
-    deleteReview
+    deleteReview,
+    userId
   }
 }
