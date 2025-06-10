@@ -15,18 +15,6 @@ ESLint + Prettier para formatação e linting
 Oxlint para linting adicional
 
 ## 🚀 Scripts Disponíveis
-Comando	Descrição
-npm run dev	
-	
- 
-	
-	
-npm run lint:oxlint	Executa o oxlint para análise de código e correção automática.
-	
-npm run lint	Executa ambas as ferramentas de análise de código (oxlint e eslint).
-	
-
-## 🚀 Scripts Disponíveis
 
 | Comando               | Descrição                                                             |
 |---------------------- |--------------------------------------------------                     |
