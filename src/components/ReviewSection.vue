@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
-import { useReview } from '@/composables/useReview'
+import { useReviewSection } from '@/composables/useReviewSection'
 
 const {
   reviews,
@@ -12,68 +11,22 @@ const {
   submitReview,
   updateReview,
   deleteReview,
-  formatDate
-} = useReview()
-
-// Recupera ID do usuário logado
-const userId = ref<number | null>(getUserId())
-const isLoggedIn = computed(() => !!userId.value)
-
-function getUserId(): number | null {
-  const raw = localStorage.getItem('userId')
-  return raw ? Number(raw) : null
-}
-
-const editModeReview = ref(null)
-
-function openNewReview() {
-  comment.value = ''
-  classification.value = null
-  editModeReview.value = null
-  toggleModal()
-}
-
-function editReview(review: any) {
-  comment.value = review.comments
-  classification.value = Number(review.classification)
-  editModeReview.value = review
-  showModal.value = true
-}
-
-async function handleSubmit() {
-  if (editModeReview.value) {
-    await updateReview(editModeReview.value.id, comment.value, classification.value)
-    editModeReview.value = null
-  } else {
-    await submitReview()
-  }
-
-  comment.value = ''
-  classification.value = null
-  toggleModal()
-  await fetchReviews()
-}
-
-async function confirmDelete(reviewId: number) {
-  const confirm = window.confirm('Tem certeza que deseja deletar esta avaliação?')
-  if (confirm) {
-    await deleteReview(reviewId)
-    await fetchReviews()
-  }
-}
-
-const paginatedReviews = computed(() => {
-  return reviews.value.slice(0, 5)
-})
-
-onMounted(fetchReviews)
+  formatDate,
+  paginatedReviews,
+  openNewReview,
+  editReview,
+  handleSubmit,
+  confirmDelete,
+  isLoggedIn,
+  userId,
+  editModeReview
+} = useReviewSection()
 </script>
 
 <template>
   <section class="mt-16 max-w-4xl mx-auto px-4">
     <h2 class="text-2xl font-bold mb-6 text-center text-pink-600">Avaliações Recentes</h2>
 
-    <!-- Lista de avaliações -->
     <div v-if="paginatedReviews.length" class="space-y-4 mb-10">
       <div
         v-for="review in paginatedReviews"
@@ -92,7 +45,6 @@ onMounted(fetchReviews)
         <p class="text-sm text-gray-700 mt-2">{{ review.comments }}</p>
         <p class="text-xs text-gray-600 mt-1">{{ formatDate(review.created_at) }}</p>
 
-        <!-- Botões só se logado e for o autor -->
         <div
           v-if="isLoggedIn && (review.user === userId || review.user?.id === userId)"
           class="flex gap-3 mt-2"
@@ -103,7 +55,6 @@ onMounted(fetchReviews)
       </div>
     </div>
 
-    <!-- Botão para abrir modal -->
     <div class="text-center" v-if="isLoggedIn">
       <button
         class="bg-pink-500 text-white px-6 py-2 rounded-full font-medium hover:bg-pink-600 transition"
@@ -113,7 +64,6 @@ onMounted(fetchReviews)
       </button>
     </div>
 
-    <!-- Modal -->
     <div
       v-if="showModal"
       class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center"
@@ -132,14 +82,18 @@ onMounted(fetchReviews)
         ></textarea>
 
         <div class="mb-4">
-          <label class="block font-medium mb-1">Classificação (1 a 5):</label>
-          <input
-            type="number"
-            min="1"
-            max="5"
-            v-model.number="classification"
-            class="w-20 p-1 border border-gray-300 rounded"
-          />
+          <label class="block font-medium mb-1">Classificação:</label>
+          <div class="flex space-x-1">
+            <button
+              v-for="star in 5"
+              :key="star"
+              type="button"
+              @click="classification = star"
+              class="text-2xl focus:outline-none transition"
+            >
+              <span :class="star <= classification ? 'text-yellow-400' : 'text-gray-300'">★</span>
+            </button>
+          </div>
         </div>
 
         <div class="flex justify-end gap-2">

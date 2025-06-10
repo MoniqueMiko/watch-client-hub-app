@@ -50,28 +50,25 @@ export function useReview() {
     }
   }
 
-const fetchReviews = async () => {
-  let token = localStorage.getItem('token')
-  if(token?.length === 0) token = ''
+  const fetchReviews = async () => {
+    let token = localStorage.getItem('token')
+    if (token?.length === 0) token = ''
 
-  try {
-    const response = await axios.post('http://localhost:3000/review/index',
-      {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-    )
-    const data = response.data || []
+    try {
+      const response = await axios.post('http://localhost:3000/review/index', {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      const data = response.data || []
 
-    reviews.value = data.sort((a, b) =>
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    )
-  } catch (err) {
-    console.error('Erro ao buscar avaliações:', err)
+      reviews.value = data.sort((a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      )
+    } catch (err) {
+      console.error('Erro ao buscar avaliações:', err)
+    }
   }
-}
 
   const paginatedReviews = computed(() => {
     const start = (currentPage.value - 1) * perPage

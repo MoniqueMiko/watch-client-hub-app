@@ -15,9 +15,12 @@ function goToLogin() {
 
 function logout() {
   localStorage.removeItem('token')
+  localStorage.removeItem('userId')
   userStore.clearUser()
-  router.push('/')
+
+  window.location.reload()
 }
+
 </script>
 
 <template>
