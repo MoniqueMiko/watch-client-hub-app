@@ -17,7 +17,6 @@ function goBackHome() {
   <RegisterModal :isOpen="isRegisterOpen" @close="isRegisterOpen = false" />
 
   <div class="min-h-screen flex items-center justify-center bg-rose-100 px-4 relative">
-    <!-- Botão Voltar -->
     <button
       @click="goBackHome"
       class="absolute top-4 left-4 text-pink-500 hover:text-pink-700 flex items-center"

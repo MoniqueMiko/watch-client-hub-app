@@ -1,39 +1,70 @@
-# watch-client-hub-app
+Watch Client Hub App
+Este projeto é um aplicativo web frontend desenvolvido com Vue.js. Ele funciona como o portal de apresentação online para um salão de beleza, oferecendo uma breve introdução, seção de avaliações de clientes, integração com o Instagram, informações de contato e detalhes sobre os serviços da cabeleireira. O aplicativo se comunica com APIs backend para gerenciar e exibir esses conteúdos.
 
-This template should help get you started developing with Vue 3 in Vite.
+📦 Tecnologias Principais
+Vue.js v3: Estrutura progressiva para construção de interfaces de usuário.
+Vite: Ferramenta de build rápida e servidor de desenvolvimento otimizado.
+Pinia: Gerenciamento de estado intuitivo para Vue.js.
+Vue Router: Roteamento robusto para navegação na aplicação.
+Axios: Cliente HTTP baseado em Promises para fazer requisições.
+Tailwind CSS: Framework CSS utilitário para estilização rápida e responsiva.
+TypeScript: Superconjunto do JavaScript com tipagem estática.
+Lucide Vue Next: Biblioteca de ícones simples e consistentes para Vue.
+date-fns: Ferramenta para manipulação e formatação de datas.
+🚀 Scripts Disponíveis
+Para gerenciar o projeto, você pode usar os seguintes comandos:
 
-## Recommended IDE Setup
+Comando	Descrição
+npm run dev	Inicia o servidor de desenvolvimento.
+npm run build	Compila o projeto para produção.
+npm run preview	Serve a versão de produção localmente para pré-visualização.
+npm run type-check	Verifica erros de tipo do TypeScript.
+npm run lint:oxlint	Executa o oxlint para análise de código e correção automática.
+npm run lint:eslint	Executa o ESLint para análise de código e correção automática.
+npm run lint	Executa as duas ferramentas de análise de código (oxlint e eslint).
+npm run format	Formata os arquivos no diretório src/ usando Prettier.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Exportar para as Planilhas
+⚙️ Instalação e Uso
+Pré-requisitos
+Node.js 22+
+npm ou yarn instalados.
+Passos para Rodar o Projeto
+Clone o repositório:
+Bash
 
-## Type Support for `.vue` Imports in TS
+git clone [[URL_DO_SEU_REPOSITORIO](https://github.com/MoniqueMiko/watch-api-gateway)]
+cd watch-client-hub-app
+Instale as dependências:
+Bash
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
 npm install
-```
+Inicie o servidor de desenvolvimento:
+Bash
 
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
-```
+O aplicativo estará disponível em http://localhost:5173/.
+🛠️ Build para Produção
+Para compilar o aplicativo para implantação em um ambiente de produção:
 
-### Type-Check, Compile and Minify for Production
+Bash
 
-```sh
 npm run build
-```
+Os arquivos estáticos otimizados serão gerados na pasta dist/.
 
-### Lint with [ESLint](https://eslint.org/)
+🧹 Análise de Código e Formatação
+Para manter a qualidade e padronização do código:
 
-```sh
+Verificar e corrigir problemas de linting:
+Bash
+
 npm run lint
-```
+Formatar arquivos:
+Bash
+
+npm run format
+🧑‍💻 Autor
+Monique Lourenço -> monique_lourenzia@hotmail.com
+
+📄 Licença
+Este projeto é UNLICENSED.
