@@ -1,70 +1,63 @@
-Watch Client Hub App
-Este projeto é um aplicativo web frontend desenvolvido com Vue.js. Ele funciona como o portal de apresentação online para um salão de beleza, oferecendo uma breve introdução, seção de avaliações de clientes, integração com o Instagram, informações de contato e detalhes sobre os serviços da cabeleireira. O aplicativo se comunica com APIs backend para gerenciar e exibir esses conteúdos.
+# Watch Client Hub App
+Este projeto é um aplicativo web frontend construído com Vue.js, que serve como o portal de apresentação online para um salão de beleza. Ele exibe uma apresentação breve, avaliações de clientes, integração com Instagram, informações de contato e detalhes sobre os serviços da cabeleireira, comunicando-se com APIs backend para os dados.
 
-📦 Tecnologias Principais
-Vue.js v3: Estrutura progressiva para construção de interfaces de usuário.
-Vite: Ferramenta de build rápida e servidor de desenvolvimento otimizado.
-Pinia: Gerenciamento de estado intuitivo para Vue.js.
-Vue Router: Roteamento robusto para navegação na aplicação.
-Axios: Cliente HTTP baseado em Promises para fazer requisições.
-Tailwind CSS: Framework CSS utilitário para estilização rápida e responsiva.
-TypeScript: Superconjunto do JavaScript com tipagem estática.
-Lucide Vue Next: Biblioteca de ícones simples e consistentes para Vue.
-date-fns: Ferramenta para manipulação e formatação de datas.
-🚀 Scripts Disponíveis
-Para gerenciar o projeto, você pode usar os seguintes comandos:
+## 📦 Tecnologias Principais
+Vue.js v3
+Vite
+Pinia
+Vue Router
+Axios
+Tailwind CSS
+TypeScript
+Lucide Vue Next
+date-fns
+ESLint + Prettier para formatação e linting
+Oxlint para linting adicional
 
+## 🚀 Scripts Disponíveis
 Comando	Descrição
-npm run dev	Inicia o servidor de desenvolvimento.
-npm run build	Compila o projeto para produção.
-npm run preview	Serve a versão de produção localmente para pré-visualização.
-npm run type-check	Verifica erros de tipo do TypeScript.
+npm run dev	
+	
+ 
+	
+	
 npm run lint:oxlint	Executa o oxlint para análise de código e correção automática.
-npm run lint:eslint	Executa o ESLint para análise de código e correção automática.
-npm run lint	Executa as duas ferramentas de análise de código (oxlint e eslint).
-npm run format	Formata os arquivos no diretório src/ usando Prettier.
+	
+npm run lint	Executa ambas as ferramentas de análise de código (oxlint e eslint).
+	
 
-Exportar para as Planilhas
-⚙️ Instalação e Uso
-Pré-requisitos
+## 🚀 Scripts Disponíveis
+
+| Comando               | Descrição                                                             |
+|---------------------- |--------------------------------------------------                     |
+| `npm run dev`         | Inicia o servidor de desenvolvimento.                                 |
+| `npm run build`       | Compila o projeto para produção.                                      |
+| `npm run`             | preview	Serve a versão de produção localmente para pré-visualização.|
+| `npm run build-only`  | Compila o projeto para produção (alias para build).                   |
+| `npm run type-check`  | Verifica erros de tipo do TypeScript.                                 |
+| `npm run lint`        | Aplica ESLint nos arquivos `.ts`                                      |
+| `npm run lint:eslint` | Executa o ESLint para análise de código e correção automática.        |
+| `npm run format`      | Formata os arquivos no diretório src/ usando Prettier.                |
+
+## ⚙️ Requisitos
 Node.js 22+
-npm ou yarn instalados.
-Passos para Rodar o Projeto
-Clone o repositório:
-Bash
 
-git clone [[URL_DO_SEU_REPOSITORIO](https://github.com/MoniqueMiko/watch-api-gateway)]
-cd watch-client-hub-app
-Instale as dependências:
-Bash
+## 🛠️ Build
+Para compilar o projeto:
 
-npm install
-Inicie o servidor de desenvolvimento:
-Bash
 
-npm run dev
-O aplicativo estará disponível em http://localhost:5173/.
-🛠️ Build para Produção
-Para compilar o aplicativo para implantação em um ambiente de produção:
+## npm run build
+O código será gerado na pasta dist/.
 
-Bash
+## 🧹 Lint e Prettier
+Para manter o código limpo e padronizado:
 
-npm run build
-Os arquivos estáticos otimizados serão gerados na pasta dist/.
-
-🧹 Análise de Código e Formatação
-Para manter a qualidade e padronização do código:
-
-Verificar e corrigir problemas de linting:
-Bash
 
 npm run lint
-Formatar arquivos:
-Bash
-
 npm run format
-🧑‍💻 Autor
+
+## 🧑‍💻 Autor
 Monique Lourenço -> monique_lourenzia@hotmail.com
 
-📄 Licença
-Este projeto é UNLICENSED.
+## 📄 Licença
+Este projeto é UNLICENSED. Uso restrito conforme especificado.
