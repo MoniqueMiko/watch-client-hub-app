@@ -29,20 +29,29 @@ Oxlint para linting adicional
 
 ## ⚙️ Requisitos
 Node.js 22+
+---
 
 ## 🛠️ Build
+
 Para compilar o projeto:
 
+```bash
+npm run build
+```
+O código será gerado na pasta `dist/`.
 
-## npm run build
-O código será gerado na pasta dist/.
+---
 
 ## 🧹 Lint e Prettier
+
 Para manter o código limpo e padronizado:
 
-
+```bash
 npm run lint
 npm run format
+```
+
+---
 
 ## 🧑‍💻 Autor
 Monique Lourenço -> monique_lourenzia@hotmail.com
